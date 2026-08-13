@@ -1,0 +1,19 @@
+# Render Blueprint — deploys this repo as a static site.
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: bottle-label-studio
+    runtime: static
+    # No build step — the app is a self-contained static file set.
+    buildCommand: "echo 'No build step required.'"
+    # Publish the repo root (index.html + icons + sw.js + manifest live here).
+    staticPublishPath: .
+    pullRequestPreviewsEnabled: false
+    headers:
+      # Never let the browser or CDN pin an old service worker.
+      - path: /sw.js
+        name: Cache-Control
+        value: "no-cache, no-store, must-revalidate"
+      - path: /manifest.webmanifest
+        name: Cache-Control
+        value: "no-cache"
